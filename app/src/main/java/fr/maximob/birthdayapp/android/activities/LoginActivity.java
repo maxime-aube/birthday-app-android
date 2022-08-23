@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.maximob.birthdayapp.android.R;
+import fr.maximob.birthdayapp.android.utils.ApiCallback;
+import fr.maximob.birthdayapp.android.utils.Util;
 
 public class LoginActivity extends AppCompatActivity implements ApiCallback {
 
