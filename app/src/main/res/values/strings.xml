@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Birthday App</string>
+    <string name="prompt_username">Nom d\'utilisateur</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Se connecter</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="invalid_password">mot de passe incorrect</string>
+    <string name="invalid_username">nom d\'utilisateur incorrect</string>
+    <string name="error_field_required">champ obligatoire (email)</string>
 </resources>
