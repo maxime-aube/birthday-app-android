@@ -1,8 +1,10 @@
-package fr.maximob.birthdayapp.android;
+package fr.maximob.birthdayapp.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import fr.maximob.birthdayapp.android.R;
 
 public class MainActivity extends AppCompatActivity {
 
