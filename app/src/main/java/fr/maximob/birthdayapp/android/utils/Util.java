@@ -1,6 +1,8 @@
 package fr.maximob.birthdayapp.android.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -30,6 +32,12 @@ public class Util {
         return new User(context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE).getString(USER, ""));
     }
 
+    public static boolean isActiveNetwork(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
+
     public static Date initDateFromDB(String str) throws ParseException {
         return FORMAT.parse(str);
     }
@@ -57,7 +65,7 @@ public class Util {
         return password.trim().length() > 5;
     }
 
-    public static ArrayList<ListItem>   createListItems(ArrayList<Birthday> birthdays) {
+    public static ArrayList<ListItem> createListItems(ArrayList<Birthday> birthdays) {
 
         ArrayList<ListItem> listItems = new ArrayList<>();
 

@@ -133,7 +133,7 @@ public class ListActivity extends AppCompatActivity implements ApiCallback {
 
             String[] id = {mUser.id.toString()};
 
-            UtilApi.post(String.format(UtilApi.CREATE_BIRTHDAY, id), map, this);
+            UtilApi.post(String.format(UtilApi.CREATE_BIRTHDAY, (Object) id), map, this);
 
         } catch (ParseException e) {
             Toast.makeText(this, "Date incorrecte", Toast.LENGTH_SHORT).show();

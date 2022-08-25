@@ -2,6 +2,8 @@ package fr.maximob.birthdayapp.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -18,6 +20,7 @@ import java.util.Map;
 import fr.maximob.birthdayapp.android.R;
 import fr.maximob.birthdayapp.android.utils.ApiCallback;
 import fr.maximob.birthdayapp.android.utils.Util;
+import fr.maximob.birthdayapp.android.utils.UtilApi;
 
 public class LoginActivity extends AppCompatActivity implements ApiCallback {
 
@@ -43,12 +46,12 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // rien
+                // rien.
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // rien
+                // rien.
             }
 
             @Override
@@ -63,23 +66,33 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
 
         mPasswordView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // TODO : appeler la méthode pour tenter le login
+                try {
+                    attemptLogin();
+                } catch (NetworkErrorException e) {
+                    Log.d("NETWORK ERROR", e.getMessage());
+                }
             }
             return false;
         });
-        mLoginFormView.setOnClickListener(v -> {
-            // TODO : appeler la méthode pour tenter le login
-        });
 
+        mLoginFormView.setOnClickListener(v -> {
+            try {
+                attemptLogin();
+            } catch (NetworkErrorException e) {
+                Log.d("NETWORK ERROR", e.getMessage());
+            }
+        });
     }
 
-    private void attemptLogin() {
+    private void attemptLogin() throws NetworkErrorException {
 
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+
+        Log.d("LOGIN", "attempt login with usename = " + email + " and password = " + password);
 
         boolean cancel = false;
         View focusView = null;
@@ -109,7 +122,11 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             map.put("username", email);
             map.put("password", password);
 
-            // TODO : Appeler la méthode permettant de faire un appel API via POST
+            if (Util.isActiveNetwork(this)) {
+                runOnUiThread(() -> UtilApi.post(UtilApi.URL_LOGIN, map, this));
+            } else {
+                throw new NetworkErrorException("No active network available");
+            }
         }
     }
 
