@@ -17,6 +17,8 @@ public class UtilApi {
 
     public static final String URL_LOGIN = "http://10.0.2.2:8080/login";
 
+    public static final String CREATE_BIRTHDAY = "/users/%s/birthdays";
+
     public static OkHttpClient client = new OkHttpClient();
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
