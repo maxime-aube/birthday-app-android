@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -123,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             map.put("password", password);
 
             if (Util.isActiveNetwork(this)) {
-                runOnUiThread(() -> UtilApi.post(UtilApi.URL_LOGIN, map, this));
+                UtilApi.post(UtilApi.URL_LOGIN, map, this);
             } else {
                 throw new NetworkErrorException("No active network available");
             }
@@ -136,10 +138,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
 
     @Override
     public void fail(final String json) {
-        mProgressView.setVisibility(View.INVISIBLE);
         handler.post(() -> {
             Log.d("ERREUR", "Erreur : " + json);
-            // TODO : Etablir un comportement lors du fail
+            mProgressView.setVisibility(View.INVISIBLE);
         });
     }
 
@@ -147,8 +148,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
     public void success(final String json) {
         handler.post(() -> {
             Log.d("SUCCESS", "Success : " + json);
-            // TODO : Etablir un comportement lors du succès
-            // TODO : faire la redirection
+            Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ListActivity.class));
         });
     }
 }
